@@ -1,5 +1,5 @@
 {
-  "version": "4",
+  "version": "5",
   "specifiers": {
     "jsr:@danet/core@^2.9.2": "2.9.2",
     "jsr:@danet/validatte@0.7.4": "0.7.4",
@@ -9,7 +9,7 @@
     "jsr:@std/fmt@0.223.0": "0.223.0",
     "jsr:@std/internal@^1.0.2": "1.0.6",
     "npm:awesome-phonenumber@7.1.0": "7.1.0",
-    "npm:zod@3.23.8": "3.23.8"
+    "npm:zod@^4.3.6": "4.3.6"
   },
   "jsr": {
     "@danet/core@2.9.2": {
@@ -50,15 +50,15 @@
     "awesome-phonenumber@7.1.0": {
       "integrity": "sha512-i/pC5xvaNVrduufGtnw8O+abLWq70wd6YutiPYR2NqrnwtjBMk7rG/vJTktnAivSok+ZqlkFZzuVICgObpQi4w=="
     },
-    "zod@3.23.8": {
-      "integrity": "sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g=="
+    "zod@4.3.6": {
+      "integrity": "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="
     }
   },
   "workspace": {
     "dependencies": [
       "jsr:@danet/core@^2.9.2",
       "jsr:@std/assert@1.0.3",
-      "npm:zod@3.23.8"
+      "npm:zod@^4.3.6"
     ]
   }
 }

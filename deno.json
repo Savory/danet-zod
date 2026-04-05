@@ -1,6 +1,6 @@
 {
   "name": "@danet/zod",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "exports": {
     ".": "./decorators.ts"
   },
@@ -11,6 +11,10 @@
   "imports": {
     "@danet/core": "jsr:@danet/core@^2.9.2",
     "@std/assert": "jsr:@std/assert@1.0.3",
-    "zod": "npm:zod@3.23.8"
+    "zod": "npm:zod@^4.3.6"
+  },
+  "tasks": {
+    "run:dev": "deno run -NRE ./example/run.ts",
+    "test": "deno test -A"
   }
 }
