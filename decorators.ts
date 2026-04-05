@@ -1,6 +1,6 @@
-import { NotValidBodyException, createParamDecorator, OptionsResolver, type ExecutionContext, type DecoratorFunction } from './deps.ts';
-import { z } from "zod";
+import type { z } from "zod";
 import { MetadataHelper } from '@danet/core/metadata';
+import { NotValidBodyException, createParamDecorator, type OptionsResolver, type ExecutionContext, type DecoratorFunction } from './deps.ts';
 
 /**
  *  Constant to access body zod schema for metadata
@@ -13,7 +13,7 @@ export const zodBodySchemaKey = 'zodBodySchema'
 export const zodQuerySchemaKey = 'zodQuerySchema'
 
 /**
- *  Get request's body or a given property and validate it with the provided Zod Schema. Throws NotValidBodyException
+ *  Get the request body or a given property and validate it with the provided Zod Schema. Throws NotValidBodyException
  */
 export function Body<T extends z.ZodRawShape>(zodSchema: z.ZodObject<T>, prop?: string): DecoratorFunction {
   return createParamDecorator(async (context: ExecutionContext, opts?: OptionsResolver) => {
@@ -36,38 +36,42 @@ export function Body<T extends z.ZodRawShape>(zodSchema: z.ZodObject<T>, prop?: 
     }
     const param = prop ? body[prop] : body;
     const operation = zodSchema.safeParse(param);
+
     if (!operation.success) {
       throw new NotValidBodyException(operation.error);
     }
+
     return operation.data;
   }, (target, propertyKey) => {
     MetadataHelper.setMetadata(
-        zodBodySchemaKey,
-        zodSchema,
-        target.constructor,
-        propertyKey,
+      zodBodySchemaKey,
+      zodSchema,
+      target.constructor,
+      propertyKey,
     );
   })();
 }
 
 
 /**
- *  Get request's query or a given property and validate it with the provided Zod Schema. Throws NotValidBodyException
+ *  Get the request query or a given property and validate it with the provided Zod Schema. Throws NotValidBodyException
  */
 export function Query<T extends z.ZodRawShape>(zodSchema: z.ZodObject<T>): DecoratorFunction {
   return createParamDecorator(async (context: ExecutionContext, opts?: OptionsResolver) => {
     const param = context.req.query()
     const operation = zodSchema.safeParse(param);
+
     if (!operation.success) {
       throw new NotValidBodyException(operation.error, "Query bad formatted");
     }
+
     return operation.data;
   }, (target, propertyKey) => {
     MetadataHelper.setMetadata(
-        zodQuerySchemaKey,
-        zodSchema,
-        target.constructor,
-        propertyKey,
+      zodQuerySchemaKey,
+      zodSchema,
+      target.constructor,
+      propertyKey,
     );
   })();
 }
@@ -79,10 +83,10 @@ export function Query<T extends z.ZodRawShape>(zodSchema: z.ZodObject<T>): Decor
 export const RETURNED_SCHEMA_KEY = 'returnschema';
 
 type MethodDecoratorFunction = (
-    // deno-lint-ignore ban-types
-    target: Object,
-    propertyKey?: string | symbol,
-    descriptor?: PropertyDescriptor,
+  // deno-lint-ignore ban-types
+  target: Object,
+  propertyKey?: string | symbol,
+  descriptor?: PropertyDescriptor,
 ) => void;
 
 /**
@@ -93,18 +97,18 @@ type MethodDecoratorFunction = (
  */
 export function ReturnedSchema(returnedSchema: any, isArray?: boolean): MethodDecoratorFunction {
   return (
-      target: Object,
-      propertyKey?: string | symbol,
-      descriptor?: any,
+    target: Object,
+    propertyKey?: string | symbol,
+    descriptor?: any,
   ) => {
     MetadataHelper.setMetadata(
-        RETURNED_SCHEMA_KEY,
-        {
-          returnedSchema,
-          isArray,
-        },
-        target,
-        propertyKey,
+      RETURNED_SCHEMA_KEY,
+      {
+        returnedSchema,
+        isArray,
+      },
+      target,
+      propertyKey,
     );
   };
 }
